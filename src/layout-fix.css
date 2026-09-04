@@ -1,0 +1,8 @@
+/* App shell correction: keep the navigation rail and workspace in one row. */
+.app { display: flex; min-height: 100vh; }
+.desktop-side { flex: 0 0 248px; }
+.shell { margin-left: 0; min-width: 0; flex: 1; }
+
+@media (max-width: 900px) {
+  .app { display: block; }
+}

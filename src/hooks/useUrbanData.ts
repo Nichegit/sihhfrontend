@@ -1,0 +1,2 @@
+import { useEffect,useState } from 'react'; import { api } from '../services/mockApi'; import type { DashboardData, UrbanEvent, Status } from '../types';
+export function useUrbanData(){const [data,setData]=useState<DashboardData>();const [error,setError]=useState(false);const refresh=()=>api.dashboard().then(setData).catch(()=>setError(true));useEffect(()=>{refresh()},[]);const action=async(id:string,status:Status)=>{await api.updateEvent(id,status);refresh()};const simulate=async()=>{await api.simulate();refresh()};return{data,error,refresh,action,simulate}}
