@@ -101,7 +101,7 @@ const buses: FleetBus[] = [
   {
     id: 'BUS-104',
     route: 'R-27 · Dwarka — ITO',
-    status: 'online',
+    status: 'online' as const,
     occupancy: 72,
     speed: 28,
     lastSeen: 'now',
@@ -111,7 +111,7 @@ const buses: FleetBus[] = [
   {
     id: 'BUS-078',
     route: 'R-18 · Mayur Vihar — CP',
-    status: 'warning',
+    status: 'warning' as const,
     occupancy: 84,
     speed: 12,
     lastSeen: 'now',
@@ -121,7 +121,7 @@ const buses: FleetBus[] = [
   {
     id: 'BUS-116',
     route: 'R-11 · Badarpur — ISBT',
-    status: 'online',
+    status: 'online' as const,
     occupancy: 61,
     speed: 32,
     lastSeen: '20s ago',
@@ -131,7 +131,7 @@ const buses: FleetBus[] = [
   {
     id: 'BUS-091',
     route: 'R-42 · Nehru Place — CP',
-    status: 'online',
+    status: 'online'as const,
     occupancy: 48,
     speed: 23,
     lastSeen: 'now',
