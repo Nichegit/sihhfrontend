@@ -40,6 +40,7 @@ FastAPI Backend
 Database
      ↓
 UrbanLens Dashboard
+```
 
 
 # UrbanLens Frontend
@@ -54,6 +55,34 @@ npm.cmd run dev
 ```
 
 Open the local Vite URL, normally `http://localhost:5173`.
+
+## Live Delhi bus tracking
+
+UrbanLens keeps the Delhi Open Transit Data API key on a FastAPI server. React never receives or exposes that key.
+
+1. Obtain API access from Delhi Open Transit Data.
+2. In `backend/`, copy `.env.example` to `.env` and set `DELHI_OTD_API_KEY` to your private OTD key. Do not commit this file.
+3. Start the backend:
+
+```powershell
+cd backend
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+uvicorn main:app --reload --port 8010
+```
+
+4. In a second PowerShell window, start React from the project root:
+
+```powershell
+npm.cmd run dev
+```
+
+The frontend polls `GET http://localhost:5173/api/live-buses` every 10 seconds; Vite proxies it to FastAPI at `http://127.0.0.1:8010/api/live-buses`.
+
+The map shows **LIVE BUS FEED** only after the backend has successfully returned OTD data. If the backend, key, or feed is unavailable, it safely remains in **DEMO BUS LOCATIONS** mode and continues to show the dashboard.
+
+Security: `backend/.env` is ignored by Git. Keep the OTD key there only; never put it in React, Vite variables, screenshots, commits, or the GitHub repository.
 
 ## Current mode
 
