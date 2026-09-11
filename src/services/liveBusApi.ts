@@ -1,6 +1,6 @@
 import type { LiveBusesResponse } from '../types';
 
-const LIVE_BUSES_URL = '/api/live-buses';
+const LIVE_BUSES_URL = 'http://localhost:8000/api/live-buses';
 
 export async function fetchLiveBuses(signal?: AbortSignal): Promise<LiveBusesResponse> {
   const response = await fetch(LIVE_BUSES_URL, { signal, headers: { Accept: 'application/json' } });
