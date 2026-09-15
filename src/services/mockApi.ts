@@ -31,7 +31,7 @@ const traffic: DashboardData['traffic'] = [
 
 export const api = {
   async dashboard(): Promise<DashboardData> { await wait(); return { kpis:[
-    {label:'Active buses',value:'124 / 130',change:'+3 this hour',tone:'cyan'}, {label:'Online cameras',value:'486',change:'98.4% healthy',tone:'green'},
+    {label:'Active buses',value:'124 / 130',change:'+3 this hour',tone:'cyan'},
     {label:'Active alerts',value:String(events.filter((event) => event.status === 'new').length),change:'2 critical',tone:'orange'}, {label:'Avg. route delay',value:'8.4 min',change:'−1.2 min today',tone:'purple'},
   ], events: events.filter((event) => isWithinMonitoredCorridor(event.lat, event.lng)), buses: buses.filter((bus) => isWithinMonitoredCorridor(bus.lat, bus.lng)), traffic }; },
   async updateEvent(id: string, status: Status) { await wait(250); events = events.map((event) => event.id === id ? {...event,status} : event); return events.find((event) => event.id === id)!; },
