@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { Activity, ArrowUpRight, Bus, ChevronRight, Clock, Filter, RefreshCw, ShieldCheck, Sparkles, TriangleAlert } from 'lucide-react';
 import { AreaChart, Area, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import type { DashboardData, UrbanEvent } from './types';
@@ -10,10 +10,23 @@ const ago = (time: string) => time.replace('Today, ', '');
 function Empty({ title }: { title: string }) { return <div className="empty"><Sparkles size={28}/><b>{title}</b><p>This view is ready for live FastAPI data.</p></div>; }
 const alertLabel = (type: string) => type === 'Rash driving' ? 'Rash Driving Detected' : type === 'Pothole' ? 'Pothole Detected' : type === 'Pedestrian safety' ? 'Pedestrian Safety Risk' : type;
 
-export function Overview({ data, liveBuses, onSelect, onSimulate }: { data: DashboardData; liveBuses: LiveBusState; onSelect:(event:UrbanEvent)=>void; onSimulate:()=>void }) {
+export function Overview({ data, liveBuses, onSelect, onRunDemo, simulating, simulateError }: { data: DashboardData; liveBuses: LiveBusState; onSelect:(event:UrbanEvent)=>void; onRunDemo:(file: File)=>void; simulating?: boolean; simulateError?: string | null }) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const handleFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) onRunDemo(file);
+    event.target.value = ''; // allow re-selecting the same file next time
+  };
   const kpis = data.kpis.map((kpi, index) => index === 0 && liveBuses.isLive ? { ...kpi, value: String(liveBuses.buses?.length ?? 0), change: `${liveBuses.buses?.length ?? 0} live in corridor` } : kpi);
   return <>
-    <div className="page-heading"><div><p className="eyebrow">MONITORED CORRIDOR · ±1% FLEXIBILITY</p><h1>Good morning, Hardik.</h1><p className="muted">Real-time intelligence for the defined Old Delhi–Badli corridor.</p></div><button className="button primary" onClick={onSimulate}><Activity size={16}/> Run live demo</button></div>
+    <div className="page-heading">
+      <div><p className="eyebrow">MONITORED CORRIDOR · ±1% FLEXIBILITY</p><h1>Good morning, Hardik.</h1><p className="muted">Real-time intelligence for the defined Old Delhi–Badli corridor.</p></div>
+      <button className="button primary" disabled={simulating} onClick={() => fileInputRef.current?.click()}>
+        <Activity size={16}/> {simulating ? 'Processing video…' : 'Run live demo'}
+      </button>
+      <input ref={fileInputRef} type="file" accept="video/mp4,video/quicktime,video/x-msvideo" hidden onChange={handleFile}/>
+    </div>
+    {simulateError && <p className="muted" style={{ color: '#ef8d9b' }}>{simulateError}</p>}
     <div className="kpis">{kpis.map((kpi,index) => <div className="kpi" key={kpi.label}><div className={'kpi-icon '+kpi.tone}>{index===0?<Bus/>:index===1?<Activity/>:index===2?<TriangleAlert/>:<Clock/>}</div><div><small>{kpi.label}</small><h2>{kpi.value}</h2><p>{kpi.change}</p></div></div>)}</div>
     <div className="dashboard-grid">
       <section className="card map-card"><div className="card-title"><div><h3>Live corridor operations</h3><p>AI monitoring within the defined Old Delhi–Badli corridor</p></div><span className={'live '+(liveBuses.isLive ? '' : 'demo')}><i/> {liveBuses.isLive ? 'LIVE' : 'DEMO'}</span></div><CityMap compact events={data.events} buses={data.buses} liveBusState={liveBuses} onSelect={onSelect}/><div className="corridor-caption"><b>Monitored Corridor:</b> {CORRIDOR_LABEL}<small>Only areas within corridor boundary (±1%) are monitored.</small></div></section>

@@ -8,7 +8,7 @@ import { useLiveBuses } from './hooks/useLiveBuses';
 import { Overview, MapPage, Listing } from './pages';
 
 export function App() {
-  const { data, error, refresh, action, simulate } = useUrbanData();
+  const { data, error, refresh, action, runDemo, simulating, simulateError } = useUrbanData();
   const liveBuses = useLiveBuses();
   const [selected, setSelected] = useState<string>();
   const [menu, setMenu] = useState(false);
@@ -20,7 +20,7 @@ export function App() {
     <div className={menu ? 'mobile-side open' : 'mobile-side'} onClick={() => setMenu(false)}><Sidebar/></div>
     <div className="desktop-side"><Sidebar/></div>
     <main className="shell"><Header onMenu={() => setMenu(true)}/><div className="content"><Routes>
-      <Route path="/" element={<Overview data={data} liveBuses={liveBuses} onSelect={(item) => select(item.id)} onSimulate={simulate}/>}/>
+      <Route path="/" element={<Overview data={data} liveBuses={liveBuses} onSelect={(item) => select(item.id)} onRunDemo={runDemo} simulating={simulating} simulateError={simulateError}/>}/>
       <Route path="/map" element={<MapPage data={data} liveBuses={liveBuses} onSelect={(item) => select(item.id)}/>}/>
       <Route path="/fleet" element={<Listing title="Fleet operations" description="Live health and edge-node intelligence across the deployed fleet." data={data} onSelect={(item) => select(item.id)}/>}/>
       <Route path="/traffic" element={<Listing title="Traffic intelligence" description="AI-derived vehicle density, bottlenecks and route delay signals." data={data} onSelect={(item) => select(item.id)} filter={(item) => item.type === 'Traffic congestion'}/>}/>
