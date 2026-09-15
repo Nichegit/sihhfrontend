@@ -5,13 +5,23 @@ import { Header } from './components/Header';
 import { EventPanel } from './components/EventPanel';
 import { useUrbanData } from './hooks/useUrbanData';
 import { useLiveBuses } from './hooks/useLiveBuses';
-import { Overview, MapPage, Listing } from './pages';
+import { Overview, MapPage, Listing, Login } from './pages';
 
 export function App() {
+  const [authenticated, setAuthenticated] = useState(false);
   const { data, error, refresh, action, runDemo, simulating, simulateError } = useUrbanData();
   const liveBuses = useLiveBuses();
   const [selected, setSelected] = useState<string>();
   const [menu, setMenu] = useState(false);
+
+  if (!authenticated) {
+    return (
+      <Routes>
+        <Route path="*" element={<Login onAuthenticated={() => setAuthenticated(true)} />} />
+      </Routes>
+    );
+  }
+
   if (error) return <main className="error"><h1>Could not reach the intelligence feed.</h1><button onClick={refresh}>Retry connection</button></main>;
   if (!data) return <main className="loading"><div className="loader"/><p>Connecting to UrbanLens command stream…</p></main>;
   const select = (id: string) => setSelected(id);
