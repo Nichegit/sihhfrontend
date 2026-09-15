@@ -79,7 +79,7 @@ export function Overview({ data, liveBuses, onSelect, onRunDemo, simulating, sim
   const kpis = data.kpis.map((kpi, index) => index === 0 && liveBuses.isLive ? { ...kpi, value: String(liveBuses.buses?.length ?? 0), change: `${liveBuses.buses?.length ?? 0} live in corridor` } : kpi);
   return <>
     <div className="page-heading">
-      <div><p className="eyebrow">MONITORED CORRIDOR · ±1% FLEXIBILITY</p><h1>Good morning, Hardik.</h1><p className="muted">Real-time intelligence for the defined Old Delhi–Badli corridor.</p></div>
+      <div><p className="eyebrow">MONITORED CORRIDOR · ±1% FLEXIBILITY</p><h1>Good morning, Niche GIT</h1><p className="muted">Real-time intelligence for the defined Old Delhi–Badli corridor.</p></div>
       <button className="button primary" disabled={simulating} onClick={() => fileInputRef.current?.click()}>
         <Activity size={16}/> {simulating ? 'Processing video…' : 'Run live demo'}
       </button>
