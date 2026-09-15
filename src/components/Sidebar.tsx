@@ -1,3 +1,3 @@
 import { LayoutDashboard,Map,Bus,ChartNoAxesCombined,Construction } from 'lucide-react'; import { NavLink } from 'react-router-dom';
-const items=[['Overview','/',LayoutDashboard],['Live map','/map',Map],['Fleet','/fleet',Bus],['Traffic intelligence','/traffic',ChartNoAxesCombined],['Road conditions','/road-conditions',Construction]] as const;
+const items=[['Overview','/',LayoutDashboard],['Live map','/map',Map],['Road conditions','/road-conditions',Construction]] as const;
 export function Sidebar(){return <aside className="sidebar"><div className="brand"><div className="logo">U</div><div><b>UrbanLens</b><small>COMMAND CENTER</small></div></div><nav>{items.map(([label,path,Icon])=><NavLink end={path==='/'} key={path} to={path} className={({isActive})=>isActive?'nav active':'nav'}><Icon size={17}/><span>{label}</span></NavLink>)}</nav></aside>}

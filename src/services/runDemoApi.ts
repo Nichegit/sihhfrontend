@@ -33,7 +33,7 @@ const CLASS_TO_EVENT_TYPE: Record<string, EventType> = {
 
 export function toUrbanEvent(event: PipelineEvent, reportUrl?: string): UrbanEvent {
   const confidence = Math.round(event.confidence * 100);
-  const severity: Severity = confidence >= 90 ? 'critical' : confidence >= 75 ? 'high' : confidence >= 60 ? 'medium' : 'low';
+  const severity: Severity = confidence >= 80 ? 'critical' : confidence >= 70 ? 'high' : confidence >= 60 ? 'medium' : 'low';
   return {
     id: event.event_id,
     type: CLASS_TO_EVENT_TYPE[event.class] ?? 'Infrastructure',
