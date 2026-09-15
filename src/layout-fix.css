@@ -18,3 +18,9 @@
 .live-bus-icon { background:transparent; border:0; }.live-bus-icon span { width:18px; height:18px; display:block; color:#39d9d0; font-size:19px; line-height:18px; text-shadow:0 0 6px #07131d, 0 0 3px #07131d; transform-origin:center; }
 .map-status { position:absolute; z-index:5; top:12px; left:12px; background:#0a1823e8; border:1px solid #29414a; border-radius:4px; padding:6px 8px; color:#f6c95a; font:9px 'DM Mono',monospace; }.map-status i { display:inline-block; width:7px; height:7px; border-radius:50%; margin-right:5px; background:#4ed6aa; box-shadow:0 0 0 3px #4ed6aa22; }.map-status small { display:block; max-width:180px; overflow:hidden; text-overflow:ellipsis; color:#e8a6a6; margin-top:4px; white-space:nowrap; }
 .live.demo { color:#f6c95a; border-color:#69562d; }.live.demo i { background:#f6c95a; box-shadow:0 0 0 4px #f6c95a18; }.live-empty { color:#90a7b0; font-size:10px; padding:24px 18px; border-top:1px solid #1b303b; }
+.evidence { position: relative; }
+.evidence img { width: 100%; height: 100%; object-fit: cover; border-radius: 7px; position: absolute; inset: 0; }
+.evidence p { position: relative; z-index: 1; }
+.report-link { display:flex; justify-content:center; align-items:center; gap:6px; margin-top:10px;
+  border:1px solid #2d414d; background:#12242e; color:#4ed3d2; border-radius:6px; padding:9px; font-size:11px; font-weight:700; text-decoration:none; }
+.report-link:hover { background:#173038; }

@@ -28,7 +28,7 @@ export function useUrbanData() {
     setSimulateError(null);
     try {
       const result = await runDemoWithVideo(file);
-      const liveEvents = result.events.map(toUrbanEvent);
+      const liveEvents = result.events.map((event) => toUrbanEvent(event, result.report_url));
       setData((current) => current ? { ...current, events: [...liveEvents, ...current.events] } : current);
     } catch (reason) {
       setSimulateError(reason instanceof Error ? reason.message : 'Run demo failed');
