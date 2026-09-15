@@ -37,6 +37,6 @@ export function App() {
       <Route path="/road-conditions" element={<Listing title="Road conditions" description="Prioritized defects reported by front-facing fleet cameras." data={data} onSelect={(item) => select(item.id)} filter={(item) => item.type === 'Pothole' || item.type === 'Waterlogging'}/>}/>
       <Route path="*" element={<Navigate to="/" replace/>}/>
     </Routes></div></main>
-    {event && <EventPanel event={event} onClose={() => setSelected(undefined)} onAction={async (id, status) => { await action(id, status); setSelected(undefined); }}/>}
+    {event && <EventPanel event={event} onClose={() => setSelected(undefined)} onAction={async (id, status, reason) => { await action(id, status, reason); setSelected(undefined); }}/>}
   </div>;
 }

@@ -63,3 +63,29 @@
   font-weight: 700;
 }
 .login-footer { color: #55707c; font-size: 10px; margin: 22px 0 0; text-align: center; }
+.reject-toggle { color: #ef8d9b; border-color: #4a2b32; }
+.reject-box {
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid #3d2630;
+  background: #170e13;
+  border-radius: 7px;
+  display: grid;
+  gap: 8px;
+}
+.reject-box label { font: 9px 'DM Mono'; color: #d3949c; text-transform: uppercase; }
+.reject-box textarea {
+  width: 100%;
+  background: #0a1822;
+  border: 1px solid #3d2630;
+  border-radius: 5px;
+  color: #dbe8ec;
+  font-size: 11px;
+  padding: 8px 10px;
+  resize: vertical;
+  outline: 0;
+}
+.reject-box textarea:focus { border-color: #ef8d9b; }
+.reject-error { color: #ef8d9b; font-size: 10px; }
+.reject-box-actions { display: flex; gap: 7px; justify-content: flex-end; }
+.button.danger { background: #3d2630; border-color: #ef8d9b; color: #ef8d9b; }

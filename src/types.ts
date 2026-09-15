@@ -5,8 +5,9 @@ export interface UrbanEvent {
   id:string; type:EventType; severity:Severity; status:Status; confidence:number;
   timestamp:string; busId:string; cameraId:string; routeId:string; location:string;
   lat:number; lng:number; summary:string; plate?:string; trackId?:string;
-  frameUrl?: string;   // NEW — the exact frame used for detection, time/lat/lon/bus/zone already on it
-  reportUrl?: string;  // NEW — hazard-report.pdf for this run, only present if hazards were found
+  frameUrl?: string;
+  reportUrl?: string;
+  rejectionReason?: string;   // NEW — mandatory reason captured when an event is rejected
 }
 export interface FleetBus { id:string; route:string; status:'online'|'offline'|'warning'; occupancy:number; speed:number; lastSeen:string; lat:number; lng:number; }
 export interface LiveBus { bus_id:string | null; label:string | null; latitude:number; longitude:number; speed:number | null; speed_source:'feed' | 'gps-derived' | null; bearing:number | null; timestamp:string | null; zone:string | null; }

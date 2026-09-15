@@ -15,8 +15,8 @@ export function useUrbanData() {
     refresh();
   }, []);
 
-  const action = async (id: string, status: Status) => {
-    await api.updateEvent(id, status);
+  const action = async (id: string, status: Status, reason?: string) => {   // NEW — reason passed through for rejects
+    await api.updateEvent(id, status, reason);
     refresh();
   };
 
