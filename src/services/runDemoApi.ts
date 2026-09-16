@@ -27,7 +27,7 @@ const CLASS_TO_EVENT_TYPE: Record<string, EventType> = {
   debris: 'Infrastructure',
   garbage: 'Infrastructure',
   'garbage-overflow': 'Infrastructure',
-  Accident: 'Rash driving',
+  Accident: 'Accident',
   traffic_light: 'Traffic congestion',
 };
 

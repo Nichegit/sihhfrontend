@@ -9,7 +9,7 @@ const point = (areaName: MonitoredAreaName, latOffset = 0, lngOffset = 0) => {
 };
 
 let events: UrbanEvent[] = [
-  { id:'EVT-260905-183', type:'Waterlogging', severity:'high', status:'new', confidence:94, timestamp:'Today, 10:37:02', busId:'BUS-078', cameraId:'REAR-CAM', routeId:'R-02', ...point('Sadar Bazar',-0.002,0.002), summary:'Standing water covers one lane inside the monitored corridor.' },
+  { id:'EVT-260905-183', type:'Waterlogging', severity:'high', status:'new', confidence:94, timestamp:'Today, 10:37:02', busId:'BUS-078', cameraId:'REAR-CAM', routeId:'R-02', ...point('Sadar Bazar',-0.002,0.002), summary:'Standing water covers one lane inside the monitored corridor.', frameUrl:'/demo/waterlogging.jpg'},
   { id:'EVT-260905-181', type:'Pothole', severity:'high', status:'verified', confidence:92, timestamp:'Today, 10:26:49', busId:'BUS-116', cameraId:'FRONT-CAM', routeId:'R-03', ...point('Azadpur',0.002,0.001), summary:'Large pothole detected near the corridor route.' },
 ];
 
