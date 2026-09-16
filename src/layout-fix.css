@@ -89,3 +89,12 @@
 .reject-error { color: #ef8d9b; font-size: 10px; }
 .reject-box-actions { display: flex; gap: 7px; justify-content: flex-end; }
 .button.danger { background: #3d2630; border-color: #ef8d9b; color: #ef8d9b; }
+=======
+.evidence { position: relative; }
+.evidence img { width: 100%; height: 100%; object-fit: cover; border-radius: 7px; position: absolute; inset: 0; }
+.evidence p { position: relative; z-index: 1; }
+.report-link { display:flex; justify-content:center; align-items:center; gap:6px; margin-top:10px;
+  border:1px solid #2d414d; background:#12242e; color:#4ed3d2; border-radius:6px; padding:9px; font-size:11px; font-weight:700; text-decoration:none; }
+.report-link:hover { background:#173038; }
+.alert-thumb { width:34px; height:34px; border-radius:6px; object-fit:cover; flex-shrink:0; border:1px solid #1e3240; }
+.alerts .report-link { margin:10px 17px 14px; }

@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Activity, ArrowUpRight, Bus, ChevronRight, Clock, Filter, RefreshCw, ShieldCheck, Sparkles, TriangleAlert } from 'lucide-react';
+import { Activity, ArrowUpRight, Bus, ChevronRight, Clock, FileText, Filter, RefreshCw, ShieldCheck, Sparkles, TriangleAlert } from 'lucide-react';
 import { AreaChart, Area, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import type { DashboardData, UrbanEvent } from './types';
 import { CityMap } from './components/CityMap';
@@ -71,6 +71,7 @@ export function Login({ onAuthenticated }: { onAuthenticated: () => void }) {
 
 export function Overview({ data, liveBuses, onSelect, onRunDemo, simulating, simulateError }: { data: DashboardData; liveBuses: LiveBusState; onSelect:(event:UrbanEvent)=>void; onRunDemo:(file: File)=>void; simulating?: boolean; simulateError?: string | null }) {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const latestReportUrl = data.events.find((event) => event.reportUrl)?.reportUrl;
   const handleFile = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) onRunDemo(file);
@@ -89,7 +90,26 @@ export function Overview({ data, liveBuses, onSelect, onRunDemo, simulating, sim
     <div className="kpis">{kpis.map((kpi,index) => <div className="kpi" key={kpi.label}><div className={'kpi-icon '+kpi.tone}>{index===0?<Bus/>:index===1?<Activity/>:index===2?<TriangleAlert/>:<Clock/>}</div><div><small>{kpi.label}</small><h2>{kpi.value}</h2><p>{kpi.change}</p></div></div>)}</div>
     <div className="dashboard-grid">
       <section className="card map-card"><div className="card-title"><div><h3>Live corridor operations</h3><p>AI monitoring within the defined Old Delhi–Badli corridor</p></div><span className={'live '+(liveBuses.isLive ? '' : 'demo')}><i/> {liveBuses.isLive ? 'LIVE' : 'DEMO'}</span></div><CityMap compact events={data.events} buses={data.buses} liveBusState={liveBuses} onSelect={onSelect}/><div className="corridor-caption"><b>Monitored Corridor:</b> {CORRIDOR_LABEL}<small>Only areas within corridor boundary (±1%) are monitored.</small></div></section>
-      <section className="card alerts"><div className="card-title"><div><h3>Priority alerts</h3><p>Within corridor only · demo AI feed</p></div><button className="text-button">View all <ChevronRight size={16}/></button></div>{data.events.slice(0,4).map((event) => <button className="alert-row" key={event.id} onClick={() => onSelect(event)}><i className={'severity '+event.severity}/><span><b>{alertLabel(event.type)}</b><small>{event.location} · {ago(event.timestamp)}</small></span><strong>{event.confidence}%</strong><ChevronRight size={16}/></button>)}</section>
+      <section className="card alerts">
+  <div className="card-title">
+    <div><h3>Priority alerts</h3><p>Within corridor only · demo AI feed</p></div>
+    <button className="text-button">View all <ChevronRight size={16}/></button>
+  </div>
+  {data.events.slice(0,4).map((event) => (
+    <button className="alert-row" key={event.id} onClick={() => onSelect(event)}>
+      {event.frameUrl
+        ? <img className="alert-thumb" src={event.frameUrl} alt="" />
+        : <i className={'severity '+event.severity}/>}
+      <span><b>{alertLabel(event.type)}</b><small>{event.location} · {ago(event.timestamp)}</small></span>
+      <strong>{event.confidence}%</strong>
+      <ChevronRight size={16}/>
+    </button>
+  ))}
+  {latestReportUrl &&
+    <a className="report-link" href={latestReportUrl} target="_blank" rel="noreferrer">
+      <FileText size={15}/> Download latest hazard report (PDF)
+    </a>}
+</section>
       <section className="card traffic"><div className="card-title"><div><h3>Traffic flow</h3><p>Within corridor · demo traffic analytics</p></div><select><option>Today</option></select></div><div className="chart"><ResponsiveContainer width="100%" height="100%"><AreaChart data={data.traffic}><defs><linearGradient id="volume" x1="0" x2="0" y1="0" y2="1"><stop stopColor="#36c7cf" stopOpacity=".45"/><stop offset="1" stopColor="#36c7cf" stopOpacity="0"/></linearGradient></defs><XAxis dataKey="time" tickLine={false} axisLine={false} interval={0}/><YAxis hide/><Tooltip/><Area type="monotone" dataKey="volume" stroke="#36c7cf" strokeWidth={2} fill="url(#volume)"/></AreaChart></ResponsiveContainer></div></section>
       <section className="card fleet-summary"><div className="card-title"><div><h3>Fleet health</h3><p>{liveBuses.isLive ? 'Live OTD vehicles within corridor' : 'Demo fleet within corridor'}</p></div><ShieldCheck color="#4ed6aa"/></div>{liveBuses.isLive ? (liveBuses.buses?.length ? liveBuses.buses.map((bus) => <div className="fleet-row" key={bus.bus_id ?? `${bus.latitude}-${bus.longitude}`}><i/><span><b>{bus.label ?? bus.bus_id ?? 'Unlabelled bus'}</b><small>{bus.zone ?? 'Corridor connector'}</small></span><strong>{bus.speed === null ? '—' : bus.speed} <small>{bus.speed === null ? '' : 'km/h'}</small></strong></div>) : <div className="live-empty">No live buses currently inside the monitored corridor.</div>) : data.buses.map((bus) => <div className="fleet-row" key={bus.id}><i className={bus.status}/><span><b>{bus.id}</b><small>{bus.route}</small></span><strong>{bus.speed} <small>km/h</small></strong></div>)}</section>
     </div>
